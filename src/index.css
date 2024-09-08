@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.filtering-button {
+  background-color: #FFEAD0;
+  color: #4D4D4D;
+  text-align: center;
+  padding: 5px;
+  width: 100px;
+  border: none;
+  border-radius: 10%;
+}
+
+.simple-active:hover, .simple-active {
+  background-color: #E17654;
+  color: #FFEAD0;
+}
+
+.luxury-active:hover, .luxury-active {
+  background-color: #161616;
+  color: #FFEAD0;
+}
+
+.rugged-active:hover, .rugged-active {
+  background-color: #115E59;
+  color: #FFEAD0;
+}
+
+.active-nav-link, .link:hover {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.rugged {
+  text-align: center;
+  padding: 5px;
+  width: 80px;
+  border: none;
+  border-radius: 10%;
+  background-color: #115E59;
+  color: #FFEAD0;
+}
+
+.simple {
+  text-align: center;
+  padding: 5px;
+  width: 80px;
+  border: none;
+  border-radius: 10%;
+  background-color: #E17654;
+  color: #FFEAD0;
+}
+
+.luxury {
+  text-align: center;
+  padding: 5px;
+  width: 80px;
+  border: none;
+  border-radius: 10%;
+  background-color: #161616;
+  color: #FFEAD0;
+}

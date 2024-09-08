@@ -1,21 +1,70 @@
 import logo from "../assets/vanLifeLogo.png";
 import { Link, NavLink } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { auth } from "../firebase/firebase";
-import { onAuthStateChanged } from "firebase/auth";
+import { useState, useContext } from "react";
+import AuthContext from "../utils/AuthContext";
 
 function Navbar() {
-  const [currentUser, setCurrentUser] = useState(null);
-  const [, setLoading] = useState(true);
+  const currentUser = useContext(AuthContext)
   const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      // console.log(user)
-      setCurrentUser(user);
-      setLoading(false);
-    });
-  }, []);
+  const links = () => {
+    return (
+      <>
+      <NavLink
+      to="host"
+      onClick={closeMenuOnMobile}
+      className={({ isActive }) => (isActive ? "active-nav-link" : "")}
+    >
+      <li>Host</li>
+    </NavLink>
+    <NavLink
+      to="about"
+      onClick={closeMenuOnMobile}
+      className={({ isActive }) => (isActive ? "active-nav-link" : "")}
+    >
+      <li>About</li>
+    </NavLink>
+    <NavLink
+      to="vans"
+      onClick={closeMenuOnMobile}
+      className={({ isActive }) => (isActive ? "active-nav-link" : "")}
+    >
+      <li>Vans</li>
+    </NavLink>
+    {!currentUser ? (
+      <NavLink to="signIn">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          width="24"
+          height="24"
+          fill="currentColor"
+        >
+          <circle cx="12" cy="8" r="4" />
+          <path d="M12 14c-5 0-8 3-8 6v2h16v-2c0-3-3-6-8-6z" />
+        </svg>
+      </NavLink>
+    ) : (
+      <NavLink to="signOut">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+          <polyline points="16 17 21 12 16 7" />
+          <line x1="21" y1="12" x2="9" y2="12" />
+        </svg>
+      </NavLink>
+      )}
+      </>
+      )}
 
   const closeMenuOnMobile = () => {
     if (window.innerWidth <= 1150) {
@@ -58,125 +107,19 @@ function Navbar() {
           </svg>
         )}
       </button>
-      <div className={`${
-      isOpen ? 'fixed top-20 left-0  w-full h-full bg-white' : 'fixed top-0 right-[-100%] w-[80%] h-full'
-    } transition-all duration-300 ease-in-out z-10 lg:hidden md:hidden`}>
-      <ul className={`text-lg flex flex-col md:hidden lg:hidden px-6`}>
-        <NavLink
-          to="host"
-          onClick={closeMenuOnMobile}
-          className={({ isActive }) => (isActive ? "active-nav-link" : "")}
-        >
-          <li>Host</li>
-        </NavLink>
-        <NavLink
-          to="about"
-          onClick={closeMenuOnMobile}
-          className={({ isActive }) => (isActive ? "active-nav-link" : "")}
-        >
-          <li>About</li>
-        </NavLink>
-        <NavLink
-          to="vans"
-          onClick={closeMenuOnMobile}
-          className={({ isActive }) => (isActive ? "active-nav-link" : "")}
-        >
-          <li>Vans</li>
-        </NavLink>
-        {!currentUser ? (
-          <NavLink to="signIn">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              width="24"
-              height="24"
-              fill="currentColor"
-            >
-              <circle cx="12" cy="8" r="4" />
-              <path d="M12 14c-5 0-8 3-8 6v2h16v-2c0-3-3-6-8-6z" />
-            </svg>
-          </NavLink>
-        ) : (
-          <NavLink to="signOut">
-            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-              <line
-                x1="6"
-                y1="6"
-                x2="18"
-                y2="18"
-                stroke="black"
-                strokeWidth="2"
-              />
-              <line
-                x1="18"
-                y1="6"
-                x2="6"
-                y2="18"
-                stroke="black"
-                strokeWidth="2"
-              />
-            </svg>
-          </NavLink>
-        )}
-      </ul>
+      <div
+        className={`${
+          isOpen
+            ? "fixed top-20 left-0 z-30 w-full h-full bg-white"
+            : "fixed top-0 right-[-100%] w-[80%] h-full"
+        } transition-all duration-300 ease-in-out lg:hidden md:hidden z-30`}
+      >
+        <ul className={`text-lg flex flex-col md:hidden lg:hidden px-6`}>
+         {links()}
+        </ul>
       </div>
       <ul className={`text-lg gap-6 items-center px-6 hidden md:flex lg:flex `}>
-        <NavLink
-          to="host"
-          onClick={closeMenuOnMobile}
-          className={({ isActive }) => (isActive ? "active-nav-link" : "")}
-        >
-          <li>Host</li>
-        </NavLink>
-        <NavLink
-          to="about"
-          onClick={closeMenuOnMobile}
-          className={({ isActive }) => (isActive ? "active-nav-link" : "")}
-        >
-          <li>About</li>
-        </NavLink>
-        <NavLink
-          to="vans"
-          onClick={closeMenuOnMobile}
-          className={({ isActive }) => (isActive ? "active-nav-link" : "")}
-        >
-          <li>Vans</li>
-        </NavLink>
-        {!currentUser ? (
-          <NavLink to="signIn">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              width="24"
-              height="24"
-              fill="currentColor"
-            >
-              <circle cx="12" cy="8" r="4" />
-              <path d="M12 14c-5 0-8 3-8 6v2h16v-2c0-3-3-6-8-6z" />
-            </svg>
-          </NavLink>
-        ) : (
-          <NavLink to="signOut">
-            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-              <line
-                x1="6"
-                y1="6"
-                x2="18"
-                y2="18"
-                stroke="black"
-                strokeWidth="2"
-              />
-              <line
-                x1="18"
-                y1="6"
-                x2="6"
-                y2="18"
-                stroke="black"
-                strokeWidth="2"
-              />
-            </svg>
-          </NavLink>
-        )}
+    {links()}
       </ul>
     </nav>
   );

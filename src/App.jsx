@@ -4,6 +4,10 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase/firebase";
+import AuthContext from "./utils/AuthContext";
 import Home from "./pages/Home";
 import Layout from "./pages/Layout";
 import About from "./pages/About";
@@ -13,13 +17,23 @@ import VanDetails, { loader as vanDetailsLoader } from "./pages/VanDetails";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Host from "./pages/host/Host";
-import HostDashboard, {loader as hostDashboardLoader} from "./pages/host/HostDashboard";
+import HostDashboard, {
+  loader as hostDashboardLoader,
+} from "./pages/host/HostDashboard";
 import HostIncome from "./pages/host/HostIncome";
 import HostReviews from "./pages/host/HostReviews";
-import HostVans, {loader as hostVansLoader} from "./pages/host/HostVans";
+import HostVans, { loader as hostVansLoader } from "./pages/host/HostVans";
 import SignOut from "./pages/SignOut";
-import HostVanDetails, {loader as hostVansDetailsLoader} from "./pages/host/HostVanDetails";
+import HostVanDetails, {
+  loader as hostVansDetailsLoader,
+} from "./pages/host/HostVanDetails";
 function App() {
+  const [currentUser, setCurrentUser] = useState(null);
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+    });
+  }, []);
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
@@ -36,18 +50,30 @@ function App() {
           <Route path="signIn" element={<SignIn />} />
           <Route path="signOut" element={<SignOut />} />
           <Route path="host" element={<Host />}>
-            <Route index element={<HostDashboard />} loader={hostDashboardLoader}/>
+            <Route
+              index
+              element={<HostDashboard />}
+              loader={hostDashboardLoader}
+            />
             <Route path="income" element={<HostIncome />} />
             <Route path="reviews" element={<HostReviews />} />
-            <Route path="vans" element={<HostVans />} loader={hostVansLoader}/>
-            <Route path="vans/:id" element={<HostVanDetails />} loader={hostVansDetailsLoader}/>
+            <Route path="vans" element={<HostVans />} loader={hostVansLoader} />
+            <Route
+              path="vans/:id"
+              element={<HostVanDetails />}
+              loader={hostVansDetailsLoader}
+            />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Route>
       </>
     )
   );
-  return <RouterProvider router={router} />;
+  return (
+    <AuthContext.Provider value={currentUser}>
+      <RouterProvider router={router} />
+    </AuthContext.Provider>
+  );
 }
 
 export default App;

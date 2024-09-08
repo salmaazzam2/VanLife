@@ -4,7 +4,7 @@ import Footer from "../components/Footer"
 
 function Layout() {
   return (
-    <div className="font-mono flex flex-col min-h-screen m-0 p-0 box-border overflow-x-hidden">
+    <div className="font-mono flex flex-col min-h-screen m-0 p-0 relative box-border overflow-x-hidden">
         <Navbar />
         <main className='flex-grow'>
         <Outlet />

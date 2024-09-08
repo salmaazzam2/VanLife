@@ -1,15 +1,15 @@
 /* eslint-disable react/no-unescaped-entities */
-import { useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { Navigate, NavLink } from "react-router-dom";
 import { auth } from "../firebase/firebase";
 import {
   signInWithEmailAndPassword,
-  onAuthStateChanged,
 } from "firebase/auth";
+import AuthContext from "../utils/AuthContext";
 function SignIn() {
   const [details, setDetails] = useState({ email: "", password: "" });
   const [message, setMessage] = useState("");
-  const [currentUser, setCurrentUser] = useState(null);
+  const currentUser = useContext(AuthContext)
   const handleSignIn = () => {
     signInWithEmailAndPassword(auth, details.email, details.password)
       .then(() => {
@@ -31,15 +31,6 @@ function SignIn() {
 
     setDetails((prev) => ({ ...prev, [name]: value }));
   };
-
-
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-       // console.log(user)
-      setCurrentUser(user);
-    });
-  }, []);
 
   return (
     <>

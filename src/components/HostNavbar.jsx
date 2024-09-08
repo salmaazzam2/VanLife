@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom"
 function HostNavbar() {
 
   return (
-    <nav className="mx-20">
+    <nav className="mx-3 lg:mx-20">
         <ul className="flex justify-between">
             <NavLink to="." className={({isActive}) => (isActive ? 'active-nav-link' : '')} end> Dashboard </NavLink>
             <NavLink to="income" className={({isActive}) => (isActive ? 'active-nav-link' : '')}> Income </NavLink>

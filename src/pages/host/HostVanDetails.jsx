@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 import { useLoaderData, Link } from "react-router-dom";
 import { getVan } from "../../api/api";
 
@@ -9,29 +8,32 @@ export async function loader({ params }) {
 
 function HostVanDetails() {
   const loaderData = useLoaderData();
-  const vanData = loaderData.map((van) => (
-    <div key={van[0]} className="flex flex-col my-4 mx-4">
+  const vanData = loaderData.map((van) => {
+    const {description, imageUrl, name, price, type } = van[1]
+    return(
+      <div key={van[0]} className="flex flex-col my-4 mx-4">
       <img
-        src={encodeURI(van[1].imageUrl.stringValue)}
+        src={encodeURI(imageUrl.stringValue)}
         className="object-fit rounded-lg"
       />
       <button
         className={`my-2 ${
-          van[1].type.stringValue === "luxury"
+          type.stringValue === "luxury"
             ? "luxury"
-            : van[1].type.stringValue === "simple"
+            : type.stringValue === "simple"
             ? "simple"
             : "rugged"
         }`}
       >
-        {van[1].type.stringValue}
+        {type.stringValue}
       </button>
-      <h3 className="text-2xl font-bold">{van[1].name.stringValue}</h3>
-      <h3 className="my-2 text-lg"><span className="font-bold">${van[1].price.integerValue}</span>/day</h3>
-      <p>{van[1].description.stringValue}</p>
+      <h3 className="text-2xl font-bold">{name.stringValue}</h3>
+      <h3 className="my-2 text-lg"><span className="font-bold">${price.integerValue}</span>/day</h3>
+      <p>{description.stringValue}</p>
       <button className="bg-[#FF8C38] p-2 text-white text-lg rounded-lg mt-2 mb-3 text-center font-bold">Rent this van</button>
     </div>
-  ));
+    )
+});
   return (
     <div className="mt-5">
       <button>

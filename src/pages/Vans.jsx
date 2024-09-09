@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 import { getVans, getTypeVans } from "../api/api";
 import { Link, NavLink, useLoaderData, useLocation } from "react-router-dom";
 import { useMemo } from 'react'
@@ -13,63 +12,53 @@ function Vans() {
   const loaderData = useLoaderData();
 
   const vansData = useMemo(() => loaderData.map((van) => {
-    const id = van[1].id.stringValue;
+    const {id, imageUrl, name, price, type } = van[1]
     return (
       <Link to={`${id}`} key={van[0]}>
         <div className="flex flex-col mb-4 items-center">
           <img
-            src={encodeURI(van[1].imageUrl.stringValue)}
+            src={encodeURI(imageUrl.stringValue)}
             className="w-48 h-48 object-fit rounded-lg"
           />
-          <h3 className="text-xl">{van[1].name.stringValue}</h3>
-          <h3 className="my-2">${van[1].price.integerValue}/day</h3>
+          <h3 className="text-xl">{name.stringValue}</h3>
+          <h3 className="my-2">${price.integerValue}/day</h3>
           <button
             className={`${
-              van[1].type.stringValue === "luxury"
+              type.stringValue === "luxury"
                 ? "luxury"
-                : van[1].type.stringValue === "simple"
+                : type.stringValue === "simple"
                 ? "simple"
                 : "rugged"
             }`}
           >
-            {van[1].type.stringValue}
+            {type.stringValue}
           </button>
         </div>
       </Link>
     );
   }), [loaderData]);
-  1
 
+const filterTypes = ["simple", "rugged", "luxury"]
 const {search} = useLocation()
 const type = new URLSearchParams(search).get('type')
+
+const filterButtons = () => {
+  return filterTypes.map((filterType) => (
+    <NavLink key={filterType}
+    to={`?type=${filterType}`}
+    className={({ isActive }) =>
+      `filtering-button ${isActive && type === filterType? `${filterType}-active` : ""}`
+    }
+  >
+    {filterType[0].toUpperCase() + filterType.slice(1)}
+  </NavLink>
+  ))
+}
   return (
     <div className="mt-5 px-10">
       <h1 className="text-2xl mb-3">Explore our van options</h1>
       <div className="flex gap-10 items-center">
-        <NavLink
-          to="?type=simple"
-          className={({ isActive }) =>
-            `filtering-button ${isActive && type === "simple"? "simple-active" : ""}`
-          }
-        >
-          Simple
-        </NavLink>
-        <NavLink
-          to="?type=luxury"
-          className={({ isActive }) =>
-            `filtering-button ${isActive && type === "luxury" ? "luxury-active" : ""}`
-          }
-        >
-          Luxury
-        </NavLink>
-        <NavLink
-          to="?type=rugged"
-          className={({ isActive }) =>
-            `filtering-button ${isActive && type === "rugged" ? "rugged-active" : ""}`
-          }
-        >
-          Rugged
-        </NavLink>
+     {filterButtons()}
         <Link to="" className="underline text-[#4D4D4D]">
           Clear Filters{" "}
         </Link>

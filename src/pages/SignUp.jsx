@@ -6,7 +6,6 @@ import { auth } from '../firebase/firebase'
 function SignUp() {
   const [details, setDetails] = useState({ email: "", password: "" });
 
-  //console.log(details)
   const handleChange = (e) => {
     const name = e.target.name
     const value = e.target.value
@@ -20,12 +19,10 @@ createUserWithEmailAndPassword(auth, details.email, details.password)
   .then((userCredential) => {
 
     const user = userCredential.user;
-    console.log(user)
   })
   .catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
-    console.log(errorCode, errorMessage)
   });
   }
   return (

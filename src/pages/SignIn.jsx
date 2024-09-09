@@ -13,14 +13,11 @@ function SignIn() {
   const handleSignIn = () => {
     signInWithEmailAndPassword(auth, details.email, details.password)
       .then(() => {
-        // Signed in
         setMessage("Signed in successfully");
-        // ...
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
         setMessage("There was an error signing in");
       });
     setDetails({ email: "", password: "" });

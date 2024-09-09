@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 import { useLoaderData, Link } from "react-router-dom";
 import { getVan } from "../api/api";
 

@@ -8,12 +8,9 @@ function SignOut() {
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
-        console.log("Sign-out successful.");
         setSignedIn(true);
       })
       .catch((error) => {
-        // An error happened.
-        console.log(error);
         setSignedIn(false);
       });
   };

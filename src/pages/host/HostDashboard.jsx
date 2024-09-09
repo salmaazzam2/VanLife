@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 import { useLoaderData } from "react-router-dom"
 import { getHostVans } from "../../api/api"
 import { Link } from "react-router-dom"
@@ -12,17 +11,17 @@ function HostDashboard() {
 
     const loaderData = useLoaderData()
     const hostVans = useMemo(() => loaderData.map((van) => {
-        const id = van[1].id.stringValue;
+        const {id, name, price, imageUrl} = van[1]
         return (
           <Link to={`${id}`} key={van[0]}>
             <div className="flex mb-4 items-center bg-pink-100 rounded-lg p-1">
               <img
-                src={encodeURI(van[1].imageUrl.stringValue)}
+                src={encodeURI(imageUrl.stringValue)}
                 className="w-20 h-20 object-fit rounded-lg"
               />
               <div className="ml-3">
-                <h3 className="text-xl">{van[1].name.stringValue}</h3>
-                <h3 className="my-2">${van[1].price.integerValue}/day</h3>
+                <h3 className="text-xl">{name.stringValue}</h3>
+                <h3 className="my-2">${price.integerValue}/day</h3>
               </div>
             </div>
           </Link>

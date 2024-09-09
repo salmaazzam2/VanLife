@@ -1,6 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { getVans, getTypeVans } from "../api/api";
 import { Link, NavLink, useLoaderData, useLocation } from "react-router-dom";
+import { useMemo } from 'react'
 
 export async function loader({ request }) {
   const url = new URL(request.url);
@@ -11,7 +12,7 @@ export async function loader({ request }) {
 function Vans() {
   const loaderData = useLoaderData();
 
-  const vansData = loaderData.map((van) => {
+  const vansData = useMemo(() => loaderData.map((van) => {
     const id = van[1].id.stringValue;
     return (
       <Link to={`${id}`} key={van[0]}>
@@ -36,7 +37,7 @@ function Vans() {
         </div>
       </Link>
     );
-  });
+  }), [loaderData]);
   1
 
 const {search} = useLocation()

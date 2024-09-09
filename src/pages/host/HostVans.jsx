@@ -2,6 +2,7 @@
 import { useLoaderData } from "react-router-dom";
 import { getHostVans } from "../../api/api";
 import { Link } from "react-router-dom";
+import { useMemo } from "react";
 
 export async function loader() {
   const data = await getHostVans();
@@ -11,7 +12,7 @@ export async function loader() {
 function HostVans() {
   const loaderData = useLoaderData();
 
-  const hostVans = loaderData.map((van) => {
+  const hostVans = useMemo( () => loaderData.map((van) => {
     const id = van[1].id.stringValue;
     return (
       <Link to={`${id}`} key={van[0]}>
@@ -27,7 +28,7 @@ function HostVans() {
         </div>
       </Link>
     );
-  });
+  }), [loaderData]);
   return (
     <div className="m-8 flex flex-col gap-2">
       <h1 className="text-2xl font-bold mb-2">Your listed vans</h1>

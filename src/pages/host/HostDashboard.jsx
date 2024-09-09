@@ -11,9 +11,10 @@ function HostDashboard() {
 
     const loaderData = useLoaderData()
     const hostVans = useMemo(() => loaderData.map((van) => {
-        const {id, name, price, imageUrl} = van[1]
+        const {name, price, imageUrl} = van[1]
+        const id = van[1].id.stringValue;
         return (
-          <Link to={`${id}`} key={van[0]}>
+          <Link to={`vans/${id}`} key={van[0]} relative="path">
             <div className="flex mb-4 items-center bg-pink-100 rounded-lg p-1">
               <img
                 src={encodeURI(imageUrl.stringValue)}

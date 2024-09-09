@@ -12,7 +12,8 @@ function Vans() {
   const loaderData = useLoaderData();
 
   const vansData = useMemo(() => loaderData.map((van) => {
-    const {id, imageUrl, name, price, type } = van[1]
+    const {imageUrl, name, price, type } = van[1]
+    const id = van[1].id.stringValue;
     return (
       <Link to={`${id}`} key={van[0]}>
         <div className="flex flex-col mb-4 items-center">
